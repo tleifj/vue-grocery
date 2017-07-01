@@ -2,7 +2,7 @@
 	<div class="col-sm-12">
 		<h1 >Grocery Lists</h1>
 		<ul class="list">			
-			<router-link class="list-item" tag="li" :to="'/lists/' + (index + 1)" v-for="(list, index) in $store.state.lists">{{list.title}}</router-link>
+			<router-link class="list-item" tag="li" :to="'/lists/' + list['.key']" v-for="(list, index) in lists">{{list.title}}</router-link>
 		</ul>
 		<router-link tag="button" to="/lists/new" class="mdl-button mdl-button--raised">New List</router-link>
 	</div>		
@@ -10,6 +10,7 @@
 
 <script>
 	import NewList from './NewList.vue';
+	import {db} from '../firebase';
 	export default {
 		// computed: {
 		// 	getLists() {
@@ -18,6 +19,10 @@
 		// },
 		components: {
 			appNewList: NewList
-		}
+		},
+		firebase: {
+		    lists: db.ref('data/lists')
+	    	
+	  	}
 	}
 </script>

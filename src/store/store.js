@@ -115,24 +115,31 @@ export const store = new Vuex.Store({
 			console.log('list added');
 			state.lists.push(payload);
 		},
+		saveList: (state, payload) => {
+			console.log('list saved');
+		},
 		addListItem: (state, payload) => {
 			console.log('list item added');
 			payload.item.quantity = 1;
-			state.lists[(payload.id - 1)].listItems.push(payload.item);
+			state.lists[payload.id].listItems.splice(state.lists[payload.id].listItems.length, 1, payload.item);
 		},
 		increaseListItem: (state, payload) => {
 			console.log('list item increased');
-			state.lists[(payload.listID)].listItems[payload.listItemIndex].quantity++;
+			if (!state.lists[(payload.listID)].listItems[payload.listItemIndex].checked) {
+				state.lists[(payload.listID)].listItems[payload.listItemIndex].quantity++;
+			}	
 		},
 		decreaseListItem: (state, payload) => {
 			console.log('list item decreased');
-			if (state.lists[(payload.listID)].listItems[payload.listItemIndex].quantity > 0) {
+			if (state.lists[(payload.listID)].listItems[payload.listItemIndex].quantity > 0 && !state.lists[(payload.listID)].listItems[payload.listItemIndex].checked) {
 				state.lists[(payload.listID)].listItems[payload.listItemIndex].quantity--;
 			}
 		},
 		deleteListItem: (state, payload) => {
 			console.log('list item deleted');
-			state.lists[(payload.listID)].listItems.splice(payload.listItemIndex, 1);
+			if (!state.lists[(payload.listID)].listItems[payload.listItemIndex].checked) {	
+				state.lists[(payload.listID)].listItems.splice(payload.listItemIndex, 1);
+			}	
 		},
 		checkOffListItem: (state, payload) => {
 			console.log('list item checked');
@@ -173,7 +180,7 @@ export const store = new Vuex.Store({
 		addIngredient: (state, payload) => {
 			console.log('ingredient added');
 			payload.item.quantity = 1;
-			state.recipes[(payload.id - 1)].ingredients.push(payload.item);
+			state.recipes[payload.id].ingredients.push(payload.item);
 		},
 		loadData: (state, payload) => {
 			state.lists = payload.lists;
@@ -181,12 +188,15 @@ export const store = new Vuex.Store({
 			 state.globalCategories = payload.globalCategories;
 			 state.recipes = payload.recipes;
 			 state.mealPlans = payload.mealPlans;
-		}
+		},
 	},
 	actions: {
 		addList: ({commit}, payload) => {
 			payload.listItems = [];
 			commit('addList', payload);
+		},
+		saveList: ({commit}, payload) => {
+			commit('saveList', payload);
 		},
 		addListItem: ({commit}, payload) => {
 			commit('addListItem', payload);
@@ -227,7 +237,10 @@ export const store = new Vuex.Store({
 					commit('loadData', newState)
 				}
 			})
-		}
+		},
+		testAddItem: ({commit}, payload) => {
+			commit('testAddItem', payload);
+		},
 	},
 	getters: {
 

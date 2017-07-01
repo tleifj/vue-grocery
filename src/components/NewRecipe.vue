@@ -1,7 +1,7 @@
 <template>
 	<form>
 		<input type="text" placeholder="Add Recipe" v-model="recipe.title">
-		<button @click.prevent="addRecipe(recipe, resetRecipe())" class="mdl-button mdl-button--raised">Add Recipe</button>
+		<button @click.prevent="saveRecipe()" class="mdl-button mdl-button--raised">Add Recipe</button>
 	</form>
 </template>
 
@@ -22,6 +22,10 @@
 			]),
 			resetRecipe() {
 				this.recipe = {}
+			},
+			saveRecipe: function() {
+				this.$http.post('data/recipes.json', {title: this.recipe.title, ingredients: []})
+				.then(this.resetRecipe())
 			}
 		},
 	}

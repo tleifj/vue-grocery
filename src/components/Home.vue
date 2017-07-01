@@ -3,7 +3,6 @@
 		<h1>Home</h1>
 		<p>Plan Meal!</p>
 		<button @click="saveData()" class="mdl-button mdl-button--raised">Save info</button>
-		<button @click="loadData()" class="mdl-button mdl-button--raised">Load info</button>
 	</div>
 </template>
 

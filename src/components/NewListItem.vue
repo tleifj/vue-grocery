@@ -4,9 +4,9 @@
 		<ul class="list">
 			<li 
 			class="list-item global-item" 
-			v-for="globalItem in $store.state.globalItems" 
-			@click="addListItem({id: $route.params.id, item: globalItem})"
-			v-if="$store.state.lists[($route.params.id - 1)].listItems.indexOf(globalItem) == -1"
+			v-for="globalItem in globalItems" 
+			@click="addListItem({id: $route.params.id, item: {name: globalItem.name, category: globalItem.category}})"
+			
 			>{{globalItem.name}}</li>
 		</ul>
 		<!-- <button @click.prevent="addListItem({id: $route.params.id, item: listItem}, resetListItem())">Add Item</button> -->
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import {db} from '../firebase';
 	import {mapActions} from 'vuex';
 	export default {
 		props: ['globalCategories', 'globalItems'],
@@ -25,7 +26,14 @@
 					name: '',
 					category: ''
 				},
-				query: ''
+				query: '',
+
+				test: this.$store.state.lists[(this.$route.params.id - 1)].listItems
+			}
+		},
+		firebase: {
+			globalItems: {
+				source: db.ref('data/globalItems')
 			}
 		},
 		methods: {

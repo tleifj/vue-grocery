@@ -1,14 +1,14 @@
 <template>
-	<li>
-		<input type="checkbox">
+	<li :class="{checked: listItem.checked}">
+		<input type="checkbox" @click="checkOffListItem({listItemIndex: index, listID: $route.params.id})">
 		<span>{{listItem.quantity}}</span>
-		<span @click="checkOffListItem({listItemIndex: index, listID: ($route.params.id - 1)})" :class="{checked: listItem.checked}">{{listItem.name}}</span> 
-		<span class="pull-right" @click="deleteListItem({listItemIndex: index, listID: ($route.params.id - 1)})">Delete</span>
+		<span  >{{listItem.name}}</span> 
+		<span class="pull-right" @click="deleteListItem({listItemIndex: index, listID: $route.params.id})">Delete</span>
 		<span class="pull-right item-increase"
-		@click="increaseListItem({listItemIndex: index, listID: ($route.params.id - 1)})"
+		@click="increaseListItem({listItemIndex: index, listID: $route.params.id})"
 		>+</span>
 		<span class="pull-right item-decrease"
-		@click="decreaseListItem({listItemIndex: index, listID: ($route.params.id - 1)})"
+		@click="decreaseListItem({listItemIndex: index, listID: $route.params.id})"
 		>-</span>
 		
 		
@@ -29,3 +29,9 @@
 		}
 	}
 </script>
+
+<style>
+	li.checked span {
+		color: lightgrey;
+	}
+</style>

@@ -1,8 +1,8 @@
 <template>
 	<div class="col-sm-12 list">
-		<h1>{{$store.state.recipes[($route.params.id - 1)].title}}</h1> 
+		<h1>{{recipes[ $route.params.id.toString()].title}}</h1> 
 		<ul class="list">
-			<li class="list-item" v-for="(ingredient, index) in recipe.ingredients"
+			<li class="list-item" v-for="(ingredient, index) in recipes[ $route.params.id.toString()].ingredients"
 			
 			>
 				{{ingredient.quantity}} {{ingredient.name}}
@@ -21,7 +21,7 @@
 	import NewListItem from "./NewListItem.vue";
 	import { mapGetters } from 'vuex'
 	import { mapActions } from 'vuex'
-
+	import {db} from '../firebase'
 
 	export default {
 		computed: {
@@ -35,6 +35,9 @@
 		components: {
 			appListItem: ListItem,
 			appNewListItem: NewListItem
+		},
+		firebase: {
+			recipes: db.ref('data/recipes')
 		},
 		
 	}

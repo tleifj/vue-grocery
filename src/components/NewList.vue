@@ -1,7 +1,7 @@
 <template>
 	<form>
 		<input type="text" placeholder="Add List" v-model="list.title">
-		<router-link tag="button" to="/lists" @click.native="addList(list, resetList())">Save List</router-link>
+		<router-link tag="button" to="/lists" @click.native="saveList()">Save List</router-link>
 	</form>
 </template>
 
@@ -22,6 +22,12 @@
 			]),
 			resetList() {
 				this.list = {}
+			},
+			saveList: function() {
+				this.$http.post('data/lists.json', {title: this.list.title, listItems: []})
+				.then(function() {
+					this.$router.push('/lists');
+				})
 			}
 		},
 	}
