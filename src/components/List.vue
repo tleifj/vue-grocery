@@ -8,20 +8,6 @@
 				>
 					
 				</app-list-item>
-				<!-- <li class="list-item" v-for="(listItem, index) in listItems">
-					<input type="checkbox">
-					<span>{{listItem.quantity}}</span>
-					<span @click="checkOffListItem({listItemIndex: index, listID: ($route.params.id - 1)})" :class="{checked: listItem.checked}">{{listItem.name}}</span> 
-					<span class="pull-right" @click="deleteListItem({listItemIndex: index, listID: ($route.params.id - 1)})">Delete</span>
-					<span class="pull-right item-increase"
-					@click="increaseListItem({listItemIndex: index, listID: ($route.params.id - 1)})"
-					>+</span>
-					<span class="pull-right item-decrease"
-					@click="decreaseListItem({listItemIndex: index, listID: ($route.params.id - 1)})"
-					>-</span>
-					
-					
-				</li> -->
 			</ul>
 			<router-link tag="button" :to="'/lists/' + $route.params.id + '/edit'" class="mdl-button mdl-button--raised">Add Items</router-link>
 		<!-- 	<router-link tag="button" to="/lists" class="mdl-button mdl-button--raised" @click.native="saveList()">Save List</router-link> -->

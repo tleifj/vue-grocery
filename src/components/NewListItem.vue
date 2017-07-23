@@ -5,7 +5,7 @@
 			<li 
 			class="list-item global-item" 
 			v-for="globalItem in globalItems" 
-			@click="addListItem({id: $route.params.id, item: {name: globalItem.name, category: globalItem.category}})"
+			@click="addListItem(globalItem)"
 			
 			>{{globalItem.name}}</li>
 		</ul>
@@ -19,7 +19,6 @@
 	import {db} from '../firebase';
 	import {mapActions} from 'vuex';
 	export default {
-		props: ['globalCategories', 'globalItems'],
 		data: function() {
 			return {
 				listItem: {
@@ -27,22 +26,47 @@
 					category: ''
 				},
 				query: '',
-
-				test: this.$store.state.lists[(this.$route.params.id - 1)].listItems
 			}
 		},
+		// Gets data from firebase
 		firebase: {
 			globalItems: {
 				source: db.ref('data/globalItems')
-			}
+			},
+			lists: {
+				source: db.ref('data/lists')
+			} 
+		},
+		computed: {
+			list() {
+				return this.lists.find(element => element['.key'] === this.$route.params.id);
+			},
+
 		},
 		methods: {
-			...mapActions([
-				'addListItem'
-			]),
+			// ...mapActions([
+			// 	'addListItem'
+			// ]),
+			addListItem: function(globalItem) {
+				globalItem.quantity = 1;
+				globalItem.checked = false;
+				delete globalItem['.key'];
+				// console.log(this.list.listItems);
+				this.$http.post('data/lists/' + this.$route.params.id + '/listItems.json', globalItem)
+			},
 			resetListItem() {
 				this.listItem = {};
-			}
+			},
+			// itemCheck(item) {
+			// 	// console.log(this.list.listItems);
+			// 	var loopItems = this.list['listItems'];
+			// 	console.log(loopItems);
+			// 	for (var listItem in loopItems) {
+			// 		if ( listItem.name === item.name ) {
+			// 			return false;
+			// 		}
+			// 	}
+			// }
 		}
 	}
 </script>

@@ -5,7 +5,7 @@
 			<li 
 			class="list-group-item" 
 			v-for="globalItem in globalItems" 
-			@click="addIngredient({id: $route.params.id, item: globalItem})"
+			@click="addIngredient(globalItem)"
 			>{{globalItem.name}} - {{globalItem['.key']}}</li>
 		</ul>
 		<router-link tag="button" :to="'/recipes/' + $route.params.id">Done</router-link>
@@ -17,13 +17,15 @@
 	import {mapActions} from 'vuex';
 	import {db} from '../firebase'
 	export default {
-		props: ['globalCategories', 'globalItems'],
+		// props: ['globalCategories', 'globalItems'],
 		methods: {
 			...mapActions([
 				'addIngredient'
 			]),
-			addIngredient: function() {
-				this.$http.post('data/globalItems.json', {name: this.globalItem.name, category: this.globalItem.category})
+			addIngredient: function(globalItem) {
+				delete globalItem['.key'];
+				this.$http.post('data/recipes/' + this.$route.params.id + '/ingredients.json', globalItem)
+				// console.log(globalItem)
 				// .then(function() {
 				// 	this.$router.push('/lists');
 				// })

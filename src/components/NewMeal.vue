@@ -5,8 +5,7 @@
 			<li 
 			class="list-group-item" 
 			v-for="recipe in recipes"
-			@click="addMeal({recipe})"
-			v-if="$store.state.mealPlans[($route.params.id - 1)].meals.indexOf(recipe) == -1" 
+			@click="addMeal(recipe)"
 			>{{recipe.title}}</li>
 		</ul>
 		<router-link tag="button" :to="'/meal-plans/' + $route.params.id">Done</router-link>
@@ -15,20 +14,20 @@
 
 <script>
 	import {mapActions} from 'vuex';
+	import {db} from '../firebase';
 	export default {
-	
-		computed: {
-			recipes() {
-				return this.$store.state.recipes;
-			}
-		},
 		methods: {
-			...mapActions([
-				'addMeal'
-			]),
+			addMeal(recipe) {
+				delete recipe['.key'];
+				this.$http.post('data/mealPlans/' + this.$route.params.id + '/meals.json', recipe)
+
+			},
 			resetListItem() {
 				this.listItem = {};
 			}
-		}
+		},
+		firebase: {
+		    recipes: db.ref('data/recipes')
+	  	}
 	}
 </script>
