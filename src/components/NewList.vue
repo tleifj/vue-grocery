@@ -1,8 +1,9 @@
 <template>
-	<form>
+	<div class="col-sm-12">
+		<h1>{{list.title}}</h1>
 		<input type="text" placeholder="Add List" v-model="list.title">
-		<router-link tag="button" to="/lists" @click.native="saveList()">Save List</router-link>
-	</form>
+		<router-link tag="button" to="/lists" class="mdl-button mdl-button--raised" @click.native="saveList()">Save List</router-link>
+	</div>
 </template>
 
 <script>

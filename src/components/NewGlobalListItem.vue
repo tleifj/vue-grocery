@@ -1,13 +1,14 @@
 <template>
-	<div class="col-sm-12">
-		<label for="item-name">Item Name</label>
-		<input type="text" name="item-name" v-model="globalItem.name" >
+	<div class="col-sm-12 new-global-item">
+		<span class="back-link material-icons" onclick="window.history.back()">chevron_left</span>
+		<h1>Add Item</h1>
+		<label for="item-name" >Item Name</label>
+		<input type="text" name="item-name" class="mdl-textfield__input" v-model="globalItem.name" >
 		<label for="item-category">Category</label>
 		<select type="text" name="item-category" v-model="globalItem.category">
 			<option :value="globalCategory['.value']" v-for="globalCategory in globalCategories">{{globalCategory['.value']}}</option>
 		</select>
-		<button @click.prevent="saveGlobalListItem()">Add Item</button>
-		<span onclick="window.history.back()">Go Back</span>
+		<button @click.prevent="saveGlobalListItem()" class="mdl-button mdl-button--raised">Add Item</button>
 	</div>
 </template>
 
@@ -44,5 +45,12 @@
 </script>
 
 <style>
+	select {
+		display: block;
+		width: 100%;
+	}
 	
+	input, select {
+		margin-bottom: 15px;
+	}
 </style>

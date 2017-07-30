@@ -1,15 +1,15 @@
 <template>
 	<li :class="{checked: listItem.checked}">
-		<input type="checkbox" @click="checkOffListItem(index)">
+		<i class="material-icons" @click="checkOffListItem(index)">{{icon}}</i>
 		<span>{{listItem.quantity}}</span>
 		<span  >{{listItem.name}}</span> 
-		<span class="pull-right" @click="deleteListItem(index)">Delete</span>
-		<span class="pull-right item-increase"
+		<i class="material-icons pull-right"  v-if="editMode && !listItem.checked" @click="deleteListItem(index)">close</i>
+		<i class="material-icons pull-right item-increase"
 		@click="increaseListItem(index)"
-		>+</span>
-		<span class="pull-right item-decrease"
+		 v-if="editMode && !listItem.checked" >add</i>
+		<i class="material-icons pull-right item-decrease"
 		@click="decreaseListItem(index)"
-		>-</span>
+		 v-if="editMode && !listItem.checked" >remove</i>
 		
 		
 	</li>
@@ -19,7 +19,12 @@
 	import {mapActions} from 'vuex'
 	import {db} from '../firebase'
 	export default {
-		props: [ 'index'],
+		props: [ 'index', 'editMode'],
+		data: function() {
+			return {
+				icon: 'panorama_fish_eye',
+			}
+		},
 		computed: {
 			listItem() {
 				let list =  this.lists.find(element => element['.key'] === this.$route.params.id);
@@ -28,7 +33,14 @@
 		},
 		methods: {
 			checkOffListItem: function(index) {
-				this.$http.put('data/lists/' + this.$route.params.id + '/listItems/' + index + '/checked.json', !this.listItem.checked)
+				this.$http.put('data/lists/' + this.$route.params.id + '/listItems/' + index + '/checked.json', !this.listItem.checked);
+				if (this.icon === 'panorama_fish_eye') {
+					this.icon = 'check_circle';
+				} else {
+					this.icon = 'panorama_fish_eye';
+				}
+				
+
 			},
 			increaseListItem: function(index) {
 				this.$http.put('data/lists/' + this.$route.params.id + '/listItems/' + index + '/quantity.json', this.listItem.quantity + 1)

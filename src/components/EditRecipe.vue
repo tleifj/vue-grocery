@@ -1,14 +1,15 @@
 <template>
-	<div class="col-sm-12">
+	<div class="col-sm-12 list">
+		<router-link tag="i" class="back-link material-icons" :to="'/recipes/' + $route.params.id">chevron_left</router-link>
 		<h1>Add ingredients</h1>
 		<ul class="list-group">
 			<li 
-			class="list-group-item" 
+			class="list-item" 
 			v-for="globalItem in globalItems" 
 			@click="addIngredient(globalItem)"
-			>{{globalItem.name}} - {{globalItem['.key']}}</li>
+			>{{globalItem.name}}</li>
 		</ul>
-		<router-link tag="button" :to="'/recipes/' + $route.params.id">Done</router-link>
+		
 		<router-link tag="a" to="/global-list">Don't see your item? Add a new one.</router-link>
 	</div>
 </template>

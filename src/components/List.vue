@@ -1,17 +1,21 @@
 <template>
 	<div class="col-sm-12 list">
+		<router-link class="back-link material-icons" to="/lists">chevron_left</router-link>
+		<i class="material-icons add-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
+		<i class="material-icons add-link" v-if="editMode"  @click="changeEditMode()">done</i>
+		
 		<h1>{{list.title}}</h1>
 
-			<ul class="">
+			<ul class="" v-if="list.listItems">
 				<app-list-item class="list-item" v-for="(listItem, index) in list.listItems"
-				:listItem="listItem" :index="index"
+				:listItem="listItem" :index="index" :editMode="editMode"
 				>
 					
 				</app-list-item>
 			</ul>
-			<router-link tag="button" :to="'/lists/' + $route.params.id + '/edit'" class="mdl-button mdl-button--raised">Add Items</router-link>
-		<!-- 	<router-link tag="button" to="/lists" class="mdl-button mdl-button--raised" @click.native="saveList()">Save List</router-link> -->
-			<button class="mdl-button mdl-button--raised" @click="saveList()">Save</button>
+
+			<p v-else>No Items yet! Add some.</p>
+			<router-link class="mdl-button mdl-button--raised" tag="button" :to="'/lists/' + $route.params.id + '/edit'" v-if="editMode || !list.listItems">Add Items</router-link>
 	</div>
 </template>
 
@@ -23,6 +27,11 @@
 	import {db} from '../firebase'
 
 	export default {
+		data: function() {
+			return {
+				editMode: false
+			}	
+		},
 		computed: {
 			list() {
 				return this.lists.find(element => element['.key'] === this.$route.params.id);
@@ -36,6 +45,9 @@
 				'increaseListItem',
 				'decreaseListItem',
 			]),
+			changeEditMode: function() {
+				this.editMode = !this.editMode
+			},
 			saveList: function() {
 				let test = this.$route;
 				console.log(test);
@@ -59,12 +71,14 @@
 
 <style lang="scss">
 	.list {
-		ul { padding: 0;}
-		.list-item {
+		ul { 
 			background: #FFF;
-			padding: 10px 15px;
 			box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+		}
+		.list-item {
+			padding: 10px 15px;
 			margin-bottom: 8px;
+			border-bottom: 1px solid #eae9e9;
 			span {
 				cursor: pointer;
 				&.checked {
@@ -80,5 +94,13 @@
 				margin: 0;
 			}
 		}
+	}
+
+	.back-link {
+		float: left;
+	}
+
+	.add-link {
+		float: right;
 	}
 </style>

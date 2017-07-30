@@ -1,7 +1,7 @@
 <template>
-  <div class='container'>
+  <div id="app-container" class='container'>
     <div class="row">
-      <app-header></app-header>
+      
       <router-view></router-view>
 <!--       <app-lists :lists='lists' ></app-lists>
  -->      <!-- <app-new-list @listAdded="newList"></app-new-list>
@@ -11,6 +11,7 @@
       :globalItems='globalItems'
       @listItemAdded="newListItem"
       ></app-new-list-item> -->
+      <app-header></app-header>
     </div>
   </div>  
 </template>
@@ -53,6 +54,16 @@
   $primary: #3c5cd2;
   $light-grey: #000;
 
+  #app-container {
+    padding-bottom: 80px;
+  }
+
+  h1 {
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
   button {
     // padding: 10px 15px;
     margin: 15px 0;
@@ -75,6 +86,12 @@
 
     &:hover {
       background: darken($primary, 5%);
+    }
+  }
+
+  i.material-icons {
+    &:hover {
+      cursor: pointer;
     }
   }
   ul {

@@ -1,17 +1,20 @@
 <template>
 	<div class="col-sm-12 list">
+		<router-link class="back-link material-icons" to="/recipes">chevron_left</router-link>
+		<i class="material-icons add-link" v-if="!edit_mode" @click="changeEditMode()">edit_mode</i>
+		<i class="material-icons add-link" v-if="edit_mode"  @click="changeEditMode()">done</i>
 		<h1>{{recipe.title}}</h1> 
-		<ul class="list">
+		<ul>
 			<li class="list-item" v-for="(ingredient, index) in recipe.ingredients"
 			
 			>{{ingredient.quantity}} {{ingredient.name}}
-			<span class="pull-right" @click="deleteIngredient(index)">Delete</span>
+			<i class="material-icons pull-right" v-if="edit_mode" @click="deleteIngredient(index)">close</i>
 			</li>
 		</ul>
 		<!-- <router-link tag="button" :to="'/lists/' + $route.params.id + '/edit'">Add Items</router-link> -->
-		<button @click="addMeal(recipe)" class="mdl-button mdl-button--raised">Add to Meal Plan</button>
-		<router-link tag="a" :to="$route.params.id + '/edit'">
-		Edit recipe</router-link>
+		<button @click="addMeal(recipe)" v-if="!edit_mode" class="mdl-button mdl-button--raised">Add to Meal Plan</button>
+		<router-link tag="button" :to="$route.params.id + '/edit'" v-if="edit_mode" class="mdl-button mdl-button--raised">
+		Add Ingredients</router-link>
 	</div>
 	
 </template>
@@ -24,12 +27,20 @@
 	import {db} from '../firebase'
 
 	export default {
+		data: function() {
+			return {
+				edit_mode: false
+			}	
+		},
 		computed: {
 			recipe() {
 				return this.recipes.find(element => element['.key'] === this.$route.params.id);
 			}
 		},
 		methods: {
+			changeEditMode: function() {
+				this.edit_mode = !this.edit_mode
+			},
 			deleteIngredient: function(index) {
 				this.$http.delete('data/recipes/' + this.$route.params.id + '/ingredients/' + index + '.json')
 			},
@@ -134,5 +145,9 @@
 				margin: 0;
 			}
 		}
+	}
+
+	.add-link {
+		width: 24px;
 	}
 </style>

@@ -1,17 +1,19 @@
 <template>
-	<div class="col-sm-12">
+	<div class="col-sm-12 list">
+		<router-link class="material-icons back-link" :to="'/lists/' + $route.params.id">chevron_left</router-link>
 		<h1>Add items</h1>
-		<ul class="list">
+		<ul>
 			<li 
 			class="list-item global-item" 
-			v-for="globalItem in globalItems" 
+			v-for="globalItem in sortedItems" 
 			@click="addListItem(globalItem)"
 			
 			>{{globalItem.name}}</li>
 		</ul>
 		<!-- <button @click.prevent="addListItem({id: $route.params.id, item: listItem}, resetListItem())">Add Item</button> -->
-		<router-link tag="button" :to="'/lists/' + $route.params.id" class="mdl-button mdl-button--raised">Done</router-link>
+		
 		<router-link tag="a" to="/global-list">Don't see your item? Add a new one.</router-link>
+		<span @click="sortedItems()">click</span>
 	</div>
 </template>
 
@@ -41,6 +43,15 @@
 			list() {
 				return this.lists.find(element => element['.key'] === this.$route.params.id);
 			},
+			sortedItems() {
+				var sortedGlobalItems = this.globalItems.slice(0);
+				sortedGlobalItems.sort(function(a,b) {
+				    var x = a.name.toLowerCase();
+				    var y = b.name.toLowerCase();
+				    return x < y ? -1 : x > y ? 1 : 0;
+				})
+				return sortedGlobalItems;
+			}
 
 		},
 		methods: {
@@ -57,6 +68,7 @@
 			resetListItem() {
 				this.listItem = {};
 			},
+			
 			// itemCheck(item) {
 			// 	// console.log(this.list.listItems);
 			// 	var loopItems = this.list['listItems'];
