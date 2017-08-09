@@ -48,13 +48,15 @@
 				let currentMealPlan = this.mealPlans[Object.keys(this.mealPlans)[Object.keys(this.mealPlans).length - 1]];
 				let currentList = this.lists[Object.keys(this.lists)[Object.keys(this.lists).length - 1]];
 				console.log(currentList.listItems);
-				recipe.ingredients.forEach(ingredient => {
+				console.log(recipe.ingredients);
+				let ingredients = recipe.ingredients;
+				Object.keys(ingredients).forEach(ingredient => {
+					let item = ingredients[ingredient];
 					// Check if list exists
 					if ( currentList.listItems ) {
 						// Get list items as an array
 						var listValues = Object.values(currentList.listItems)
 						var itemIndex;
-						console.log(currentList.listItems);
 						function checkObjProp(obj, element) {
 							for (var item in obj) {
 								// If it's a unique property
@@ -77,37 +79,16 @@
 							// item.quantity += ingredient.quantity;
 							this.$http.put('data/lists/' + currentList['.key'] + '/listItems/' + itemIndex + '/quantity.json', item.quantity + item.quantity)
 							console.log(itemIndex);
+						} else {
+							console.log(item);
+							this.$http.post('data/lists/' + currentList['.key'] + '/listItems/.json', item)
 						}
-						// console.log(listValues);
-						// if (Object.values(currentList.listItems).indexOf(ingredient.name) > -1) {
-						//    console.log('has ingredient');
-						// } else {
-						// 	console.log('does not have ingredient')
-						// }
-
-						// Loop through each list item in current list
-						// for (var item in currentList.listItems) {
-						// 	// If it's a unique property
-						//     if (currentList.listItems.hasOwnProperty(item)) {
-						//         // Get value of property (list item)
-						//         var listItem = currentList.listItems[item];
-						//         console.log(currentList['.key']);
-						//         if (listItem.name === ingredient.name) {
-						//         	this.$http.put('data/lists/' + currentList['.key'] + '/listItems/' + item + '/quantity.json', listItem.quantity + 1)
-						//         	console.log("in there!")
-						//         } else {
-						// 			// Set checked status to false
-						// 			ingredient.checked = false;
-						// 			this.$http.post('data/lists/' + currentList['.key'] + '/listItems.json', ingredient)
-						// 			console.log('new item')
-						// 		}
-						//     } 
-						// }	
+							
 					} else {
 						// Set checked status to false
 						console.log('no list, created item');
-						ingredient.checked = false;
-						this.$http.post('data/lists/' + currentList['.key'] + '/listItems.json', ingredient)
+						// ingredient.checked = false;
+						this.$http.post('data/lists/' + currentList['.key'] + '/listItems.json', item)
 					}	
 					
 				})

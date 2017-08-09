@@ -17,6 +17,7 @@ import Recipe from './components/Recipe.vue'
 import EditRecipe from './components/EditRecipe.vue'
 
 import NewGlobalListItem from './components/NewGlobalListItem.vue'
+import Account from './components/Account.vue'
 
 export const routes = [
 	{path: '/', component: Home},
@@ -43,5 +44,6 @@ export const routes = [
 	]
 	
 	},
-	{path: '/global-list', component: NewGlobalListItem}
+	{path: '/global-list', component: NewGlobalListItem},
+	{path: '/account', component: Account}
 ];

@@ -1,5 +1,5 @@
 <template>
-	<div class="col-sm-12">
+	<div >
 		<h1>Recipes</h1>
 		<router-view></router-view>
 		<ul class="list">			

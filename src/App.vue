@@ -21,6 +21,7 @@
   import Home from './components/Home.vue';
   import Lists from './components/Lists.vue';
   import MealPlans from './components/MealPlans.vue';
+  import Account from './components/Account.vue';
   // import NewList from './components/NewList.vue';
   // import List from './components/List.vue';
   // import NewListItem from './components/NewListItem.vue';

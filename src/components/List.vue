@@ -16,6 +16,8 @@
 
 			<p v-else>No Items yet! Add some.</p>
 			<router-link class="mdl-button mdl-button--raised" tag="button" :to="'/lists/' + $route.params.id + '/edit'" v-if="editMode || !list.listItems">Add Items</router-link>
+			<!-- For testing list -->
+			<span @click="checkList()">clikc</span>
 	</div>
 </template>
 
@@ -27,38 +29,44 @@
 	import {db} from '../firebase'
 
 	export default {
+		// Creates an array of the list items using dynamic variable on created hook. Trying to sort list alphabetically (can't do it with object properties)
+		// created () {
+		// 	this.$bindAsArray('listItemsFBB', db.ref('data/lists/' + this.$route.params.id + '/listItems'))
+		// },
 		data: function() {
 			return {
-				editMode: false
+				editMode: false,
 			}	
 		},
 		computed: {
 			list() {
 				return this.lists.find(element => element['.key'] === this.$route.params.id);
+			},
+			// Function that turns object properties into array for sorting. Doesn't work though because it doesn't maintain the list item key (needed for firebase)
+			sortedListItems() {
+				let sortedListItems = Object.keys(this.list.listItems).map(key => this.list.listItems[key]);
+				sortedListItems = sortedListItems.slice(0);
+				sortedListItems.sort(function(a,b) {
+				    let x = a.name.toLowerCase();
+				    let y = b.name.toLowerCase();
+				    return x < y ? -1 : x > y ? 1 : 0;
+				})
+				return sortedListItems;
 			}
 		},
 		methods: {
-			...mapActions([
-				// 'saveList',
-				'deleteListItem',
-				'checkOffListItem',
-				'increaseListItem',
-				'decreaseListItem',
-			]),
 			changeEditMode: function() {
 				this.editMode = !this.editMode
 			},
-			saveList: function() {
-				let test = this.$route;
-				console.log(test);
-				this.$http.post('data/lists.json', this.$store.state.lists[(this.$route.params.id - 1)])
-				.then(function() {
-					this.$router.push('/lists');
-				})
+			// For debugging
+			checkList: function() {
+				console.log(this.listItemsFBB);
 			}
 		},
 		firebase: {
-			lists: db.ref('data/lists')
+			lists: db.ref('data/lists'),
+			// Attempting to pull in list items with variable from url  (this.$router.params.id)
+			listItemsFB: db.ref('data/lists/-KplyCmq6yP9IXcJVsQd/listItems')
 		},
 		components: {
 			appListItem: ListItem,
