@@ -48,72 +48,73 @@
 				// Get current meal plan
 				let currentMealPlan = this.mealPlans[Object.keys(this.mealPlans)[Object.keys(this.mealPlans).length - 1]];
 				console.log(currentMealPlan);
+				// If there is a meal plan to check
+				if ( currentMealPlan ) {
+					console.log(currentMealPlan);
+					// Go through each meal in meal plan
+					for (var prop in currentMealPlan.meals) {
+						// If it has any meals
+						if (currentMealPlan.meals.hasOwnProperty(prop)) {
+							console.log(prop);
+							let val = currentMealPlan.meals[prop];
+							console.log(val);
+							// If the current recipe matches currently checked meal
+							if ( val.title === this.recipe.title ) {
+								console.log('in meal plan already');
+								alert('Recipe is already in current meal plan.');
+								break;
+							// If not in meal plan, add it 
+							} else {
+								console.log('not in meal plan already');
+								console.log(this.recipe);
+								console.log(recipe);
+								recipe.recipeReference = recipe['.key'];
+								delete recipe['.key'];
+
+								this.$http.post('data/mealPlans/' + currentMealPlan['.key'] + '/meals/.json', recipe);
+							}
+						}
+					}
+				}
+
+
 				// Get current list
 				let currentList = this.lists[Object.keys(this.lists)[Object.keys(this.lists).length - 1]];
 				console.log(currentList.listItems);
 				console.log(recipe.ingredients);
 				let ingredients = recipe.ingredients;
+				// Go through each ingredient in recipe to see if it exists on current list
 				Object.keys(ingredients).forEach(ingredient => {
 					let item = ingredients[ingredient];
 					// Check if list exists
 					if ( currentList.listItems ) {
 						console.log('has list');
-						// Get list items as an array
-						// var listValues = Object.values(currentList.listItems)
-						// var propIndex;
-						// function checkObjProp(obj, element) {
-						// 	for (var prop in obj) {
-						// 		// If it's a unique property
-						// 	    if (obj.hasOwnProperty(prop)) {
-						// 	        // Get value of property (list prop)
-						// 	        var val = obj[prop];
-						// 	        if (val.name === element.name) {
-						// 	        	propIndex = prop;
-						// 	        	return true;
-						// 	        }
-						// 	    } 
-						// 	}
-						// }
-
-
+						// Go through each list item
 						for (var prop in currentList.listItems) {
 							console.log('gettinglist item...');
-								// If it's a unique property
-							    if (currentList.listItems.hasOwnProperty(prop)) {
-							    	console.log('has on props');
-							    	console.log(prop);
-							        // Get value of property (list prop)
-							        var val = currentList.listItems[prop];
-							        console.log(val);
-							        console.log(item);
-							        if (val.name == item.name) {
-							        	console.log('in list already');
-							        	this.$http.put('data/lists/' + currentList['.key'] + '/listItems/' + prop + '/quantity.json', item.quantity + item.quantity);
-							        	break;
-							        } else {
-							        	console.log('not in list');
-							        	this.$http.post('data/lists/' + currentList['.key'] + '/listItems/.json', item)
-							        	break;
+							// If it's a unique property
+						    if (currentList.listItems.hasOwnProperty(prop)) {
+						    	console.log('has on props');
+						    	console.log(prop);
+						        // Get value of property (list prop)
+						        var val = currentList.listItems[prop];
+						        console.log(val);
+						        console.log(item);
+						        // If an item has the same name as the currently checked ingredient
+						        if (val.name == item.name) {
+						        	console.log('in list already');
+						        	// Update the quantity 
+						        	this.$http.put('data/lists/' + currentList['.key'] + '/listItems/' + prop + '/quantity.json', item.quantity + item.quantity);
+						        	break;
+						        } else {
+						        	// Add the new item to the list
+						        	console.log('not in list');
+						        	this.$http.post('data/lists/' + currentList['.key'] + '/listItems/.json', item)
+						        	break;
 
-							        }
-							    } 
-							} 
-
-						// Check if ingredient is in current list
-						// if ( checkObjProp(currentList.listItems, ingredients[ingredient]) ) {
-						// 	console.log('item already in there!');
-						// 	console.log(propIndex);
-						// 	// If it is already in list, add to the quantity
-						// 	let item = listValues.find(element => element.name === ingredients[ingredient].name)
-						// 	// let propIndex = listValues.findIndex(element => element.name === ingredient.name)
-						// 	// item.quantity += ingredient.quantity;
-							
-						// 	console.log(item);
-						// } else {
-						// 	console.log(item);
-						// 	this.$http.post('data/lists/' + currentList['.key'] + '/listItems/.json', item)
-						// }
-							
+						        }
+						    } 
+						} 
 					} else {
 						// Set checked status to false
 						console.log('no list, created item');

@@ -2,10 +2,13 @@
 	<div class="col-sm-12 list">
 			<h1>{{mealPlan.title}}</h1> 
 			<ul class="list">
-				<li class="list-item" v-for="(meal, index) in mealPlan.meals"
-				>{{meal.title}}
-				<span class="pull-right" @click="deleteMeal(index)">Delete</span>
+				<li class="list-item" 
+				>
 				</li>
+				<router-link class="list-item" tag="li" :to="'/recipes/' + meal.recipeReference" v-for="(meal, index) in mealPlan.meals">
+					{{meal.title}}
+					<span class="pull-right" @click="deleteMeal(index)">Delete</span>
+				</router-link>
 			</ul>
 			<router-link tag="button" :to="'/meal-plans/' + $route.params.id + '/edit'" class="mdl-button mdl-button--raised">Add meal</router-link>
 	</div>

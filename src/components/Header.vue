@@ -39,7 +39,7 @@
 			li {
 				list-style-type: none;
 				display: inline-block;
-				margin: 0 15px;
+				margin: 0 12px;
 
 				i.material-icons {
 					display: block;
