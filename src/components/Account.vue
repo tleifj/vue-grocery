@@ -16,6 +16,9 @@
 					    if (this.mealPlans[i].hasOwnProperty(property)) {
 					        // do stuff
 					        mealsArray.push(property);
+					        if ( property === 'meals' ) {
+					        	
+					        }
 					    }
 					}
 				}

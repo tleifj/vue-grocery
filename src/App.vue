@@ -1,5 +1,5 @@
 <template>
-  <div id="app-container" class='container'>
+  <div id="app-container" :class="$route.path.substr(1) + ' container'">
     <div class="row">
       
       <router-view></router-view>
@@ -52,15 +52,45 @@
 
 <style lang="scss">
   // Variables
-  $primary: #3c5cd2;
+  
   $light-grey: #000;
+  $dark-blue: #2e475b;
+  $light-blue: #5a8397;
+  $red: #b77370;
+  $orange: #e7a16f;
+  $yellow: #e6c157;
+  $primary: $dark-blue;
 
   #app-container {
     padding-bottom: 80px;
+    background: $light-blue;
+
+    &.meal-plans {
+      background: $red;
+
+      .meal-icon a {
+        color: $red;
+      }
+    }
+
+    &.recipes {
+      background: $orange;
+
+      .recipe-icon a {
+        color: $orange;
+      }
+    }
   }
+
+  body {
+    color: $dark-blue;
+  }
+
+
 
   h1 {
     font-size: 16px;
+    color: #FFF;
     text-align: center;
     text-transform: uppercase;
   }
@@ -91,6 +121,7 @@
   }
 
   i.material-icons {
+    overflow: hidden;
     &:hover {
       cursor: pointer;
     }
@@ -109,6 +140,10 @@
       }
     }
 
+  }
+
+  .add-link, .back-link {
+    color: #FFF;
   }
 
   input[type="text"] {

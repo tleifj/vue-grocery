@@ -1,19 +1,25 @@
 <template>
 	<div class="col-sm-12 list">
 		<router-link class="back-link material-icons" to="/recipes">chevron_left</router-link>
-		<i class="material-icons add-link" v-if="!edit_mode" @click="changeEditMode()">edit_mode</i>
-		<i class="material-icons add-link" v-if="edit_mode"  @click="changeEditMode()">done</i>
+		<i class="material-icons add-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
+		<i class="material-icons add-link" v-if="editMode"  @click="changeEditMode()">done</i>
 		<h1>{{recipe.title}}</h1> 
 		<ul>
 			<li class="list-item" v-for="(ingredient, index) in recipe.ingredients"
 			
 			>{{ingredient.quantity}} {{ingredient.name}}
-			<i class="material-icons pull-right" v-if="edit_mode" @click="deleteIngredient(index)">close</i>
+			<i class="material-icons pull-right" v-if="editMode" @click="deleteIngredient(index)">close</i>
+			<i class="material-icons pull-right item-increase"
+				@click="increaseIngredient(index)"
+				 v-if="editMode" >add</i>
+			<i class="material-icons pull-right item-decrease"
+				@click="decreaseIngredient(index)"
+				 v-if="editMode" >remove</i>
 			</li>
 		</ul>
 		<!-- <router-link tag="button" :to="'/lists/' + $route.params.id + '/edit'">Add Items</router-link> -->
-		<button @click="addMeal(recipe)" v-if="!edit_mode" class="mdl-button mdl-button--raised">Add to Meal Plan</button>
-		<router-link tag="button" :to="$route.params.id + '/edit'" v-if="edit_mode" class="mdl-button mdl-button--raised">
+		<button @click="addMeal(recipe)" v-if="!editMode" class="mdl-button mdl-button--raised">Add to Meal Plan</button>
+		<router-link tag="button" :to="$route.params.id + '/edit'" v-if="editMode" class="mdl-button mdl-button--raised">
 		Add Ingredients</router-link>
 	</div>
 	
@@ -29,7 +35,7 @@
 	export default {
 		data: function() {
 			return {
-				edit_mode: false
+				editMode: false
 			}	
 		},
 		computed: {
@@ -39,7 +45,17 @@
 		},
 		methods: {
 			changeEditMode: function() {
-				this.edit_mode = !this.edit_mode
+				this.editMode = !this.editMode
+			},
+			increaseIngredient: function(index) {
+				this.$http.put('data/recipes/' + this.$route.params.id + '/ingredients/' + index + '/quantity.json', this.recipe.ingredients[index].quantity + 1)
+				console.log(this.recipe.ingredients[index].quantity)
+			},
+			decreaseIngredient: function(index) {
+				let currentIngredient = this.recipe.ingredients[index];
+				if (currentIngredient.quantity > 1 ) {
+					this.$http.put('data/recipes/' + this.$route.params.id + '/ingredients/' + index + '/quantity.json', currentIngredient.quantity - 1)
+				}	
 			},
 			deleteIngredient: function(index) {
 				this.$http.delete('data/recipes/' + this.$route.params.id + '/ingredients/' + index + '.json')

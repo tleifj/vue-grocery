@@ -5,7 +5,7 @@
 		<ul class="list-group">
 			<li 
 			class="list-item" 
-			v-for="globalItem in globalItems" 
+			v-for="globalItem in sortedItems" 
 			@click="addIngredient(globalItem)"
 			>{{globalItem.name}}</li>
 		</ul>
@@ -19,12 +19,24 @@
 	import {db} from '../firebase'
 	export default {
 		// props: ['globalCategories', 'globalItems'],
+		computed: {
+			sortedItems() {
+				var sortedGlobalItems = this.globalItems.slice(0);
+				sortedGlobalItems.sort(function(a,b) {
+				    var x = a.name.toLowerCase();
+				    var y = b.name.toLowerCase();
+				    return x < y ? -1 : x > y ? 1 : 0;
+				})
+				return sortedGlobalItems;
+			}
+		},
 		methods: {
 			...mapActions([
 				'addIngredient'
 			]),
 			addIngredient: function(globalItem) {
 				delete globalItem['.key'];
+				globalItem.quantity = 1;
 				this.$http.post('data/recipes/' + this.$route.params.id + '/ingredients.json', globalItem)
 				// console.log(globalItem)
 				// .then(function() {

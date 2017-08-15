@@ -2,17 +2,17 @@
 	<header>
 		<nav>
 			<ul>
-				<li>
+				<li class="list-icon">
 					<router-link to="/lists"><i class="material-icons">list</i>Lists</router-link>
 				</li>
-				<li>
+				<li class="meal-icon">
 					<router-link to="/meal-plans"><i class="material-icons">shopping_basket</i>Meal Plans</router-link>
-				</li>
+				</li class="add-icon">
 				<li><i class="material-icons">add_circle_outline</i></li>
-				<li>
+				<li class="recipe-icon">
 					<router-link to="/recipes"><i class="material-icons">collections_bookmark</i>Recipes</router-link>
 				</li>
-				<li>
+				<li class="account-icon">
 					<router-link to="/account"><i class="material-icons">account_circle</i>Account</router-link>
 				</li>
 			</ul>
@@ -21,6 +21,7 @@
 </template>
 
 <style lang="scss">
+	$dark-blue: #2e475b;
 
 	header {
 		padding: 5px 0;
@@ -40,6 +41,9 @@
 				list-style-type: none;
 				display: inline-block;
 				margin: 0 12px;
+				a {
+					color: $dark-blue;
+				}
 
 				i.material-icons {
 					display: block;

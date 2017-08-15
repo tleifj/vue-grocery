@@ -3,7 +3,7 @@
 		<router-link tag="i" to="/lists/new" class="material-icons add-link">add</router-link>
 		<h1 >Grocery Lists</h1>
 		<ul class="list">			
-			<router-link class="list-item" tag="li" :to="'/lists/' + list['.key']" v-for="(list, index) in lists">{{list.title}}</router-link>
+			<router-link class="list-item" tag="li" :to="'/lists/' + list['.key']" v-for="(list, index) in sortedLists">{{list.title}}</router-link>
 		</ul>
 	</div>		
 </template>
@@ -12,11 +12,11 @@
 	import NewList from './NewList.vue';
 	import {db} from '../firebase';
 	export default {
-		// computed: {
-		// 	getLists() {
-		// 		return this.$store.getters.getLists;
-		// 	}
-		// },
+		computed: {
+			sortedLists() {
+				return this.lists.reverse();
+			}
+		},
 		components: {
 			appNewList: NewList
 		},
