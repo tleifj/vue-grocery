@@ -1,20 +1,24 @@
 <template>
-	<div class="col-sm-12 list">
-		<router-link class="material-icons back-link" :to="'/lists/' + $route.params.id">chevron_left</router-link>
-		<h1>Add items</h1>
-		<ul>
-			<li 
-			class="list-item global-item" 
-			v-for="globalItem in sortedItems" 
-			@click="addListItem(globalItem)"
+	<div>
+		<div class="col-sm-12 header">
+			<router-link class="material-icons back-link" :to="'/lists/' + $route.params.id">chevron_left</router-link>
+			<h1>Add items</h1>
+		</div>
+		<div class="col-sm-12 list">
 			
-			>{{globalItem.name}}</li>
-		</ul>
-		<!-- <button @click.prevent="addListItem({id: $route.params.id, item: listItem}, resetListItem())">Add Item</button> -->
-		
-		<router-link tag="a" to="/global-list">Don't see your item? Add a new one.</router-link>
-		<span @click="sortedItems()">click</span>
-	</div>
+			<ul>
+				<li 
+				class="list-item global-item" 
+				v-for="globalItem in sortedItems" 
+				@click="addListItem(globalItem)"
+				
+				>{{globalItem.name}}</li>
+			</ul>
+			<!-- <button @click.prevent="addListItem({id: $route.params.id, item: listItem}, resetListItem())">Add Item</button> -->
+			
+			<router-link tag="a" to="/global-list">Don't see your item? Add a new one.</router-link>
+		</div>
+	</div>	
 </template>
 
 <script>

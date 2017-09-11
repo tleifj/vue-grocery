@@ -11,13 +11,13 @@
       :globalItems='globalItems'
       @listItemAdded="newListItem"
       ></app-new-list-item> -->
-      <app-header></app-header>
+      <app-navigation></app-navigation>
     </div>
   </div>  
 </template>
 
 <script>
-  import Header from './components/Header.vue';
+  import Navigation from './components/Navigation.vue';
   import Home from './components/Home.vue';
   import Lists from './components/Lists.vue';
   import MealPlans from './components/MealPlans.vue';
@@ -41,7 +41,7 @@
         },
     },
     components: {
-        appHeader: Header,
+        appNavigation: Navigation,
         appLists: Lists,
         // appNewList: NewList,
         // appList: List,
@@ -63,6 +63,7 @@
 
   #app-container {
     padding-bottom: 80px;
+    padding-top: 60px;
     background: $light-blue;
 
     &.meal-plans {
@@ -86,7 +87,23 @@
     color: $dark-blue;
   }
 
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background: #FFF;
+    color: $dark-blue;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eae9e9;
 
+    h1, .add-link, .back-link {
+      color: $dark-blue;
+      margin: 0;
+    }
+  }
 
   h1 {
     font-size: 16px;

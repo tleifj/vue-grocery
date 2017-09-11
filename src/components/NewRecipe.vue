@@ -1,8 +1,11 @@
 <template>
-	<form>
+	<div>
+		<div class="col-sm-12 header">
+			<h1>{{recipe.title}}</h1>
+		</div>
 		<input type="text" placeholder="Add Recipe" v-model="recipe.title">
-		<button @click.prevent="saveRecipe()" class="mdl-button mdl-button--raised">Add Recipe</button>
-	</form>
+		<button @click.prevent="saveRecipe(resetRecipe())" class="mdl-button mdl-button--raised">Add Recipe</button>
+	</div>
 </template>
 
 <script>
@@ -25,7 +28,9 @@
 			},
 			saveRecipe: function() {
 				this.$http.post('data/recipes.json', {title: this.recipe.title, ingredients: []})
-				.then(this.resetRecipe())
+				.then(function() {
+					this.$router.push('/recipes');
+				})
 			}
 		},
 	}

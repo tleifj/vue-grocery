@@ -1,11 +1,16 @@
 <template>
-	<div class="recipes">
-		<h1>Recipes</h1>
-		<router-view></router-view>
-		<ul class="list">			
-			<router-link class="list-item" tag="li" :to="'/recipes/' + recipe['.key']" v-for="(recipe, index) in recipes">{{recipe.title}}</router-link>
-		</ul>
-		<app-new-recipe></app-new-recipe>
+	<div>
+		<div class="col-sm-12 header">
+			<router-link tag="i" to="/recipes/new" class="material-icons add-link">add</router-link>
+			<h1>Recipes</h1> 
+		</div>
+		<div class="recipes">
+			
+			<router-view></router-view>
+			<div class="list">			
+				<router-link class="col-xs-6" tag="div" :to="'/recipes/' + recipe['.key']" v-for="(recipe, index) in recipes"><div class="list-item">{{recipe.title}}</div></router-link>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -22,3 +27,11 @@
 	  	}
 	}
 </script>
+
+<style lang="scss">
+	.recipes .list > div {
+		& > .list-item {
+			min-height: 80px;
+		}
+	}
+</style>

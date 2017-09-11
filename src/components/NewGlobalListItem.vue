@@ -1,15 +1,19 @@
 <template>
-	<div class="col-sm-12 new-global-item">
-		<span class="back-link material-icons" onclick="window.history.back()">chevron_left</span>
-		<h1>Add Item</h1>
-		<label for="item-name" >Item Name</label>
-		<input type="text" name="item-name" class="mdl-textfield__input" v-model="globalItem.name" >
-		<label for="item-category">Category</label>
-		<select type="text" name="item-category" v-model="globalItem.category">
-			<option :value="globalCategory['.value']" v-for="globalCategory in globalCategories">{{globalCategory['.value']}}</option>
-		</select>
-		<button @click.prevent="saveGlobalListItem()" class="mdl-button mdl-button--raised">Add Item</button>
-	</div>
+	<div>
+		<div class="col-sm-12 header">
+			<span class="back-link material-icons" onclick="window.history.back()">chevron_left</span>
+			<h1>Add Item</h1>
+		</div>
+		<div class="col-sm-12 new-global-item">
+			<label for="item-name" >Item Name</label>
+			<input type="text" name="item-name" class="mdl-textfield__input" v-model="globalItem.name" >
+			<label for="item-category">Category</label>
+			<select type="text" name="item-category" v-model="globalItem.category">
+				<option :value="globalCategory['.value']" v-for="globalCategory in globalCategories">{{globalCategory['.value']}}</option>
+			</select>
+			<button @click.prevent="saveGlobalListItem()" class="mdl-button mdl-button--raised">Add Item</button>
+		</div>
+		</div>
 </template>
 
 <script>

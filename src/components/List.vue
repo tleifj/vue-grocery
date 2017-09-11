@@ -1,11 +1,13 @@
 <template>
-	<div class="col-sm-12 list">
-		<router-link class="back-link material-icons" to="/lists">chevron_left</router-link>
-		<i class="material-icons add-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
-		<i class="material-icons add-link" v-if="editMode"  @click="changeEditMode()">done</i>
-		
-		<h1>{{list.title}}</h1>
-
+	<div>
+		<div class="col-sm-12 header">
+			<router-link class="back-link material-icons" to="/lists">chevron_left</router-link>
+			<i class="material-icons add-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
+			<i class="material-icons add-link" v-if="editMode"  @click="changeEditMode()">done</i>
+			
+			<h1>{{list.title}}</h1>
+		</div>
+		<div class="col-sm-12 list">
 			<ul class="" v-if="list.listItems">
 				<app-list-item class="list-item" v-for="(listItem, index) in list.listItems"
 				:listItem="listItem" :index="index" :editMode="editMode"
@@ -16,9 +18,8 @@
 
 			<p v-else>No Items yet! Add some.</p>
 			<router-link class="mdl-button mdl-button--raised" tag="button" :to="'/lists/' + $route.params.id + '/edit'" v-if="editMode || !list.listItems">Add Items</router-link>
-			<!-- For testing list -->
-			<span @click="checkList()">clikc</span>
-	</div>
+		</div>
+	</div>	
 </template>
 
 <script>

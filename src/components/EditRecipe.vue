@@ -1,17 +1,22 @@
 <template>
-	<div class="col-sm-12 list">
-		<router-link tag="i" class="back-link material-icons" :to="'/recipes/' + $route.params.id">chevron_left</router-link>
-		<h1>Add ingredients</h1>
-		<ul class="list-group">
-			<li 
-			class="list-item" 
-			v-for="globalItem in sortedItems" 
-			@click="addIngredient(globalItem)"
-			>{{globalItem.name}}</li>
-		</ul>
-		
-		<router-link tag="a" to="/global-list">Don't see your item? Add a new one.</router-link>
-	</div>
+	<div>
+		<div class="col-sm-12 header">
+			<router-link tag="i" class="back-link material-icons" :to="'/recipes/' + $route.params.id">chevron_left</router-link>
+			<h1>Add ingredients</h1>
+		</div>
+		<div class="col-sm-12 list">
+			
+			<ul class="list-group">
+				<li 
+				class="list-item" 
+				v-for="globalItem in sortedItems" 
+				@click="addIngredient(globalItem)"
+				>{{globalItem.name}}</li>
+			</ul>
+			
+			<router-link tag="a" to="/global-list">Don't see your item? Add a new one.</router-link>
+		</div>
+	</div>	
 </template>
 
 <script>

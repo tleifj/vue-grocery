@@ -1,28 +1,32 @@
 <template>
-	<div class="col-sm-12 list">
-		<router-link class="back-link material-icons" to="/recipes">chevron_left</router-link>
-		<i class="material-icons add-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
-		<i class="material-icons add-link" v-if="editMode"  @click="changeEditMode()">done</i>
-		<h1>{{recipe.title}}</h1> 
-		<ul>
-			<li class="list-item" v-for="(ingredient, index) in recipe.ingredients"
+	<div>
+		<div class="col-sm-12 header">
+			<router-link class="back-link material-icons" to="/recipes">chevron_left</router-link>
+			<i class="material-icons add-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
+			<i class="material-icons add-link" v-if="editMode"  @click="changeEditMode()">done</i>
+			<h1>{{recipe.title}}</h1> 
+		</div>
+		<div class="col-sm-12 list">
 			
-			>{{ingredient.quantity}} {{ingredient.name}}
-			<i class="material-icons pull-right" v-if="editMode" @click="deleteIngredient(index)">close</i>
-			<i class="material-icons pull-right item-increase"
-				@click="increaseIngredient(index)"
-				 v-if="editMode" >add</i>
-			<i class="material-icons pull-right item-decrease"
-				@click="decreaseIngredient(index)"
-				 v-if="editMode" >remove</i>
-			</li>
-		</ul>
-		<!-- <router-link tag="button" :to="'/lists/' + $route.params.id + '/edit'">Add Items</router-link> -->
-		<button @click="addMeal(recipe)" v-if="!editMode" class="mdl-button mdl-button--raised">Add to Meal Plan</button>
-		<router-link tag="button" :to="$route.params.id + '/edit'" v-if="editMode" class="mdl-button mdl-button--raised">
-		Add Ingredients</router-link>
+			<ul>
+				<li class="list-item" v-for="(ingredient, index) in recipe.ingredients"
+				
+				>{{ingredient.quantity}} {{ingredient.name}}
+				<i class="material-icons pull-right" v-if="editMode" @click="deleteIngredient(index)">close</i>
+				<i class="material-icons pull-right item-increase"
+					@click="increaseIngredient(index)"
+					 v-if="editMode" >add</i>
+				<i class="material-icons pull-right item-decrease"
+					@click="decreaseIngredient(index)"
+					 v-if="editMode" >remove</i>
+				</li>
+			</ul>
+			<!-- <router-link tag="button" :to="'/lists/' + $route.params.id + '/edit'">Add Items</router-link> -->
+			<button @click="addMeal(recipe)" v-if="!editMode" class="mdl-button mdl-button--raised">Add to Meal Plan</button>
+			<router-link tag="button" :to="$route.params.id + '/edit'" v-if="editMode" class="mdl-button mdl-button--raised">
+			Add Ingredients</router-link>
+		</div>
 	</div>
-	
 </template>
 
 <script>
@@ -67,30 +71,32 @@
 				// If there is a meal plan to check
 				if ( currentMealPlan ) {
 					console.log(currentMealPlan);
-					// Go through each meal in meal plan
-					for (var prop in currentMealPlan.meals) {
-						// If it has any meals
-						if (currentMealPlan.meals.hasOwnProperty(prop)) {
-							console.log(prop);
-							let val = currentMealPlan.meals[prop];
-							console.log(val);
-							// If the current recipe matches currently checked meal
-							if ( val.title === this.recipe.title ) {
-								console.log('in meal plan already');
-								alert('Recipe is already in current meal plan.');
-								break;
-							// If not in meal plan, add it 
-							} else {
-								console.log('not in meal plan already');
-								console.log(this.recipe);
-								console.log(recipe);
-								recipe.recipeReference = recipe['.key'];
-								delete recipe['.key'];
+					if ( currentMealPlan.meals ) {
+						// Go through each meal in meal plan
+						for (var prop in currentMealPlan.meals) {
+							// If it has any meals
+							if (currentMealPlan.meals.hasOwnProperty(prop)) {
+								console.log(prop);
+								let val = currentMealPlan.meals[prop];
+								console.log(val);
+								// If the current recipe matches currently checked meal
+								if ( val.title === this.recipe.title ) {
+									console.log('in meal plan already');
+									alert('Recipe is already in current meal plan.');
+									break;
+								// If not in meal plan, add it 
+								} else {
+									console.log('not in meal plan already');
+									console.log(this.recipe);
+									console.log(recipe);
+									recipe.recipeReference = recipe['.key'];
+									delete recipe['.key'];
 
-								this.$http.post('data/mealPlans/' + currentMealPlan['.key'] + '/meals/.json', recipe);
+									this.$http.post('data/mealPlans/' + currentMealPlan['.key'] + '/meals/.json', recipe);
+								}
 							}
 						}
-					}
+					}	
 				}
 
 

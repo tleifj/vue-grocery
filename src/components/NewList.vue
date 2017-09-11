@@ -1,8 +1,13 @@
 <template>
-	<div class="col-sm-12">
-		<h1>{{list.title}}</h1>
-		<input type="text" placeholder="Add List" v-model="list.title">
-		<router-link tag="button" to="/lists" class="mdl-button mdl-button--raised" @click.native="saveList()">Save List</router-link>
+	<div>
+		<div class="col-sm-12 header">
+			<router-link class="back-link material-icons" to="/lists">chevron_left</router-link>
+			<h1>{{list.title}}</h1>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" placeholder="Add List" v-model="list.title">
+			<router-link tag="button" to="/lists" class="mdl-button mdl-button--raised" @click.native="saveList()">Save List</router-link>
+		</div>
 	</div>
 </template>
 
