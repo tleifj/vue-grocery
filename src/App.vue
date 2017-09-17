@@ -64,27 +64,41 @@
   #app-container {
     padding-bottom: 80px;
     padding-top: 60px;
-    background: $light-blue;
+    
 
-    &.meal-plans {
-      background: $red;
+    .header {
+      background: $light-blue;
+      color: #FFF;
 
-      .meal-icon a {
-        color: $red;
+      h1, .back-link, .add-link {
+        color: #FFF;
       }
     }
 
-    &.recipes {
-      background: $orange;
+    // &.meal-plans {
+    //   .header {
+    //     background: $red;
+    //   }  
 
-      .recipe-icon a {
-        color: $orange;
-      }
-    }
+    //   .meal-icon a {
+    //     color: $red;
+    //   }
+    // }
+
+    // &.recipes {
+    //   .header {
+    //     background: $orange;
+    //   }
+
+    //   .recipe-icon a {
+    //     color: $orange;
+    //   }
+    // }
   }
 
   body {
     color: $dark-blue;
+    background: #f6f6f6;
   }
 
   .header {
@@ -97,7 +111,7 @@
     color: $dark-blue;
     padding-top: 12px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #eae9e9;
+    // border-bottom: 1px solid #eae9e9;
 
     h1, .add-link, .back-link {
       color: $dark-blue;
@@ -139,6 +153,7 @@
 
   i.material-icons {
     overflow: hidden;
+    width: 24px;
     &:hover {
       cursor: pointer;
     }
@@ -166,5 +181,9 @@
   input[type="text"] {
     display: block;
     width: 100%;
+  }
+
+  input.mdl-textfield__input {
+    margin-bottom: 15px;
   }
 </style>

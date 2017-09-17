@@ -7,8 +7,8 @@
 				</li>
 				<li class="meal-icon">
 					<router-link to="/meal-plans"><i class="material-icons">shopping_basket</i>Meal Plans</router-link>
-				</li class="add-icon">
-				<li><i class="material-icons" @click="openModal">add_circle_outline</i></li>
+				</li>
+				<li class="add-icon"><i class="material-icons" @click="modalChange">add_circle_outline</i></li>
 				<li class="recipe-icon">
 					<router-link to="/recipes"><i class="material-icons">collections_bookmark</i>Recipes</router-link>
 				</li>
@@ -21,6 +21,9 @@
 		    	<div class="modal-mask"  v-if="modalOpen">
 		      		<div class="modal-wrapper">
 		        		<div class="modal-container">
+		        			<div class="modal-top">
+		        				<i class="material-icons pull-right"  @click="modalChange">close</i>
+		        			</div>
 							<ul >
 								<li v-for="recipe in randomRecipes">
 									{{recipe.title}}
@@ -79,8 +82,8 @@
 	  		} 
 	  	},
 	  	methods: {
-	  		openModal() {
-	  			this.modalOpen = true;
+	  		modalChange() {
+	  			this.modalOpen = !this.modalOpen;
 	  		},
 	  		newRandomRecipes() {
 	  			this.recipes.push(); // this creates a mutation to the array without modifying it. It gets shuffled each time with the computed function.
@@ -199,12 +202,26 @@
 				list-style-type: none;
 				display: inline-block;
 				margin: 0 12px;
+				text-transform: uppercase;
+				font-size: 10px;
 				a {
 					color: $dark-blue;
+
+					&:hover {
+						text-decoration: none;
+					}
 				}
 
 				i.material-icons {
 					display: block;
+					margin: auto;
+				}
+
+				&.add-icon {
+					i {
+						font-size: 40px;
+						width: 40px;
+					}
 				}
 			}
 		}
@@ -225,6 +242,12 @@
 	.modal-wrapper {
 	  display: table-cell;
 	  vertical-align: middle;
+	}
+
+	.modal-top {
+		width: 100%;
+		height: 24px;
+		display: block;
 	}
 
 	.modal-container {

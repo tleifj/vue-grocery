@@ -1,13 +1,20 @@
 <template>
 	<div >
 		<div class="col-sm-12 header">
+			<i class="material-icons back-link" v-if="!editMode" @click="changeEditMode()">edit_mode</i>
+			<i class="material-icons back-link" v-if="editMode"  @click="changeEditMode()">done</i>
 			<router-link tag="i" to="/meal-plans/new" class="material-icons add-link">add</router-link>
-			<h1>Meals</h1>
+			<h1>Meal Plans</h1>
 		</div>
 		
 		<router-view></router-view>
 		<ul class="list">			
-			<router-link class="list-item" tag="li" :to="'/meal-plans/' + mealPlan['.key']" v-for="(mealPlan, index) in mealPlans">{{mealPlan.title}}</router-link>
+			<li class="list-item" v-for="(mealPlan, index) in mealPlans">				
+				<router-link  tag="span" :to="'/meal-plans/' + mealPlan['.key']">
+				{{mealPlan.title}}
+				</router-link>
+				<i class="material-icons pull-right"  v-if="editMode" @click="deleteMealPlan(index)">close</i>
+			</li>	
 		</ul>
 	</div>
 </template>
@@ -17,8 +24,18 @@
 	import {db} from '../firebase';
 
 	export default {
-		computed: {
-			
+		data: function() {
+			return {
+				editMode: false
+			}
+		},
+		methods: {
+			changeEditMode() {
+				this.editMode = !this.editMode;
+			},
+			deleteMealPlan(index) {
+				this.$http.delete('data/mealPlans/' + this.mealPlans[index]['.key'] + '.json')
+			}
 		},
 		components: {
 			appNewMealPlan: NewMealPlan
@@ -29,3 +46,16 @@
 	  	}
 	}
 </script>
+
+<style lang="scss">
+	.meal-plans {
+		.list {
+			.list-item {
+				span {
+					display: inline-block;
+					width: calc(100% - 30px);
+				}
+			}
+		}
+	}
+</style>

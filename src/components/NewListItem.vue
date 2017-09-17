@@ -5,11 +5,12 @@
 			<h1>Add items</h1>
 		</div>
 		<div class="col-sm-12 list">
+			<input type="text" v-model="query" class="mdl-textfield__input" placeholder="Search...">
 			
 			<ul>
 				<li 
 				class="list-item global-item" 
-				v-for="globalItem in sortedItems" 
+				v-for="globalItem in filteredItems" 
 				@click="addListItem(globalItem)"
 				
 				>{{globalItem.name}}</li>
@@ -55,7 +56,12 @@
 				    return x < y ? -1 : x > y ? 1 : 0;
 				})
 				return sortedGlobalItems;
-			}
+			},
+			filteredItems() {
+		      return this.sortedItems.filter(item => {
+		         return item.name.toLowerCase().indexOf(this.query.toLowerCase()) > -1
+		      })
+		    }
 
 		},
 		methods: {
