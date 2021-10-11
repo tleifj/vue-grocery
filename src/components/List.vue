@@ -8,8 +8,8 @@
 			<h1>{{list.title}}</h1>
 		</div>
 		<div class="col-sm-12 list">
-			<ul class="" v-if="list.listItems">
-				<app-list-item class="list-item" v-for="(listItem, index) in list.listItems"
+			<ul class="" v-if="sortedListItems">
+				<app-list-item class="list-item" v-for="(listItem, index) in sortedListItems"
 				:listItem="listItem" :index="index" :editMode="editMode"
 				>
 					
@@ -41,18 +41,44 @@
 		},
 		computed: {
 			list() {
-				return this.lists.find(element => element['.key'] === this.$route.params.id);
+
+				let list = this.lists.find(element => element['.key'] === this.$route.params.id);
+				console.log(list);
+				return list;
 			},
-			// Function that turns object properties into array for sorting. Doesn't work though because it doesn't maintain the list item key (needed for firebase)
+			// Function that turns object properties into array for sorting. 
 			sortedListItems() {
-				let sortedListItems = Object.keys(this.list.listItems).map(key => this.list.listItems[key]);
-				sortedListItems = sortedListItems.slice(0);
-				sortedListItems.sort(function(a,b) {
-				    let x = a.name.toLowerCase();
-				    let y = b.name.toLowerCase();
-				    return x < y ? -1 : x > y ? 1 : 0;
-				})
-				return sortedListItems;
+				// Grab the list items from above function
+				let listItems = this.list.listItems;
+				// console.log(listItems);
+				// We need to convert list items (which are object properties)
+				// to an array so we can sort them based on the category
+				let listItemsArray = [];
+				// Define the category order
+				let categoryOrder = ['Produce', 'Dry Goods', 'Refrigerated', 'Dairy', 'Bread', 'Alcohol'];
+				// Loop through each category
+				categoryOrder.forEach(element => {
+					// Within each category loop, we loop through the list items
+					for (var item in listItems) {
+						// If the list item category matches current category, 
+						// add it to our array
+						if (listItems[item].category === element) {
+							listItems[item].key = item;
+							listItemsArray.push(listItems[item]);
+						}
+					}
+				});
+				// console.log(listItemsArray);
+				// Let's convert our array back into an object
+				// This is what the rest of the app and firebase is expecting (not an array)
+				let objNewListItems = {};
+				listItemsArray.forEach(element => {
+					objNewListItems[element.key] = element
+				});
+				console.log(objNewListItems);
+				
+				return objNewListItems;
+				
 			}
 		},
 		methods: {
