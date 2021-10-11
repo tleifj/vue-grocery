@@ -8,7 +8,7 @@
 			
 			<router-view></router-view>
 			<div class="list">			
-				<router-link class="col-xs-6" tag="div" :to="'/recipes/' + recipe['.key']" v-for="(recipe, index) in recipes"><div class="list-item">{{recipe.title}}</div></router-link>
+				<router-link class="recipe" tag="div" :to="'/recipes/' + recipe['.key']" v-for="(recipe, index) in recipes"><div class="list-item"><h3>{{recipe.title}}</h3></div></router-link>
 			</div>
 		</div>
 	</div>
@@ -32,6 +32,19 @@
 	.recipes .list > div {
 		& > .list-item {
 			min-height: 80px;
+		}
+	}
+
+	.recipe {
+		.list-item {
+			padding: 30px 0;
+			height: 25vh;
+			display: flex;
+			align-items: flex-end;
+
+			h3 {
+				margin: 0;
+			}
 		}
 	}
 </style>

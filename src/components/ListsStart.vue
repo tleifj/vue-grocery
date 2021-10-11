@@ -57,10 +57,15 @@
 
 		.list-item {
 			background: #FFF;
-			margin-bottom: 10px;
+			margin-bottom: 0;
 			display: block;
-			min-height: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
 			border-radius: 2px;
+
+			i, span {
+				margin-right: 6px;
+			}
 		}
 	}
 

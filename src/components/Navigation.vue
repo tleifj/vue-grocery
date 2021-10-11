@@ -187,6 +187,8 @@
 
 <style lang="scss">
 	$dark-blue: #2e475b;
+	$dark-gray: rgb(38, 38, 38);
+	$light-blue: #2ab4f7;
 
 	.main-nav {
 		padding: 5px 0;
@@ -209,16 +211,27 @@
 				text-transform: uppercase;
 				font-size: 10px;
 				a {
-					color: $dark-blue;
+					color: $dark-gray;
 
 					&:hover {
 						text-decoration: none;
+						color: $light-blue;
+					}
+
+					&:focus {
+						text-decoration: none;
+						color: $dark-gray;
+					}
+
+					&.router-link-active {
+						color: $light-blue;
 					}
 				}
 
 				i.material-icons {
 					display: block;
 					margin: auto;
+					
 				}
 
 				&.add-icon {

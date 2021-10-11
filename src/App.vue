@@ -54,12 +54,13 @@
   // Variables
   
   $light-grey: #000;
-  $dark-blue: #2e475b;
-  $light-blue: #5a8397;
+  $dark-gray: rgb(38, 38, 38);
+  $primary: #2e475b;
+  $light-blue: #2ab4f7;
   $red: #b77370;
   $orange: #e7a16f;
   $yellow: #e6c157;
-  $primary: $dark-blue;
+  $primary: $dark-gray;
 
   #app-container {
     padding-bottom: 80px;
@@ -97,9 +98,17 @@
   }
 
   body {
-    color: $dark-blue;
-    background: #f6f6f6;
+    color: $primary;
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+
+    * {
+      font-family: 'Poppins', sans-serif;
+
+    }
   }
+
+  
 
   a, a:hover {
     text-decoration: none;
@@ -112,13 +121,13 @@
     right: 0;
     z-index: 2;
     background: #FFF;
-    color: $dark-blue;
+    color: $primary;
     padding-top: 12px;
     padding-bottom: 12px;
     // border-bottom: 1px solid #eae9e9;
 
     h1, .add-link, .back-link {
-      color: $dark-blue;
+      color: $primary;
       margin: 0;
     }
   }
@@ -133,7 +142,7 @@
   button {
     // padding: 10px 15px;
     margin: 15px 0;
-    background: $primary;
+    background: $light-blue;
     // border-radius: 5px;
     color: #FFF;
     // border: 0;
@@ -142,16 +151,16 @@
     transition: all .3s;
 
     &.mdl-button {
-      background: $primary;
+      background: $light-blue;
       color: #FFF;
 
       &:hover {
-        background: darken($primary, 5%);
+        background: darken($light-blue, 5%);
       }
     }
 
     &:hover {
-      background: darken($primary, 5%);
+      background: darken($light-blue, 5%);
     }
   }
 
