@@ -68,12 +68,54 @@
 			// ...mapActions([
 			// 	'addListItem'
 			// ]),
+			// Adds a new list item to the current list
 			addListItem: function(globalItem) {
+				console.log(globalItem);
+				// TODO: This needs to be updated to be the list we are in, not the most recent
+				let currentIndex = Object.keys(this.lists)[Object.keys(this.lists).length - 1];
+				// console.log(currentIndex);
+				let currentList = this.lists[currentIndex];
+				// Set default properties for a newly added item
 				globalItem.quantity = 1;
 				globalItem.checked = false;
+				// Remove the key since we don't need that on the list item
 				delete globalItem['.key'];
+				// Set a flag for the logic below
+				let itemAlreadyExists = false;
+				
+				console.log(currentList);
+				// If we don't have a list (Firebase doesn't allow for empty arrays or objects)
+				if (currentList.listItems === undefined) {
+					currentList.listItems = [];
+					currentList.listItems.push(globalItem);
+					// Add a new item in Firebase
+					this.$http.post('data/lists/' + this.$route.params.id + '/listItems.json', globalItem);				} else {
+					console.log(currentList.listItems);
+					// Loop through each list item (each list item is an object property)
+					for (var prop in currentList.listItems) {
+						if (currentList.listItems.hasOwnProperty(prop)) {
+							// This is the current list item
+							let val = currentList.listItems[prop];
+							
+							// If the names match, then the newly added item is already on the list
+							if ( globalItem.name === val.name ) {
+								// Set this to true so it doesn't get added as a new item. 
+								// Instead we will just update the quantity of the item that already exists
+								itemAlreadyExists = true;
+								console.log('item already in there');
+								// Update item quantity in Firebase
+								this.$http.put('data/lists/' + this.$route.params.id + '/listItems/' + prop + '/quantity.json', val.quantity + 1);
+								break;
+							} 	
+						}	
+					}
+					// If it doesn't exist on the list, add a new item
+					if (!itemAlreadyExists) {
+						console.log('new item!');
+						this.$http.post('data/lists/' + this.$route.params.id + '/listItems.json', globalItem);
+					}
+				}	
 				// console.log(this.list.listItems);
-				this.$http.post('data/lists/' + this.$route.params.id + '/listItems.json', globalItem)
 			},
 			resetListItem() {
 				this.listItem = {};

@@ -132,50 +132,54 @@
 
 
 				// Get current list
-				// let currentList = this.lists[Object.keys(this.lists)[Object.keys(this.lists).length - 1]];
-				// console.log(currentList.listItems);
-				// console.log(recipe.ingredients);
-				// let ingredients = recipe.ingredients;
-				// // Go through each ingredient in recipe to see if it exists on current list
-				// Object.keys(ingredients).forEach(ingredient => {
-				// 	let item = ingredients[ingredient];
-				// 	// Check if list exists
-				// 	if ( currentList.listItems ) {
-				// 		console.log('has list');
-				// 		// Go through each list item
-				// 		for (var prop in currentList.listItems) {
-				// 			console.log('gettinglist item...');
-				// 			// If it's a unique property
-				// 		    if (currentList.listItems.hasOwnProperty(prop)) {
-				// 		    	console.log('has on props');
-				// 		    	console.log(prop);
-				// 		        // Get value of property (list prop)
-				// 		        var val = currentList.listItems[prop];
-				// 		        console.log(val);
-				// 		        console.log(item);
-				// 		        // If an item has the same name as the currently checked ingredient
-				// 		        if (val.name == item.name) {
-				// 		        	console.log('in list already');
-				// 		        	// Update the quantity 
-				// 		        	this.$http.put('data/lists/' + currentList['.key'] + '/listItems/' + prop + '/quantity.json', item.quantity + item.quantity);
-				// 		        	break;
-				// 		        } else {
-				// 		        	// Add the new item to the list
-				// 		        	console.log('not in list');
-				// 		        	this.$http.post('data/lists/' + currentList['.key'] + '/listItems/.json', item)
-				// 		        	break;
+				let currentList = this.lists[Object.keys(this.lists)[Object.keys(this.lists).length - 1]];
+				console.log(currentList.listItems);
 
-				// 		        }
-				// 		    } 
-				// 		} 
-				// 	} else {
-				// 		// Set checked status to false
-				// 		console.log('no list, created item');
-				// 		// ingredient.checked = false;
-				// 		this.$http.post('data/lists/' + currentList['.key'] + '/listItems.json', item)
-				// 	}	
-					
-				// })
+				if ( currentList ) {
+					// Loop through each recipe
+					for (var randomRecipe of this.randomRecipes) {
+						// Go through each ingredient in recipe to see if it exists on current list
+						Object.keys(randomRecipe.ingredients).forEach(ingredient => {
+							let item = randomRecipe.ingredients[ingredient];
+							// Check if list exists
+							if ( currentList.listItems ) {
+								console.log('has list');
+								// Go through each list item
+								for (var prop in currentList.listItems) {
+									console.log('gettinglist item...');
+									// If it's a unique property
+								    if (currentList.listItems.hasOwnProperty(prop)) {
+								    	console.log('has on props');
+								    	console.log(prop);
+								        // Get value of property (list prop)
+								        var val = currentList.listItems[prop];
+								        console.log(val);
+								        console.log(item);
+								        // If an item has the same name as the currently checked ingredient
+								        if (val.name == item.name) {
+								        	console.log('in list already');
+								        	// Update the quantity 
+								        	this.$http.put('data/lists/' + currentList['.key'] + '/listItems/' + prop + '/quantity.json', item.quantity + item.quantity);
+								        	break;
+								        } else {
+								        	// Add the new item to the list
+								        	console.log('not in list');
+								        	this.$http.post('data/lists/' + currentList['.key'] + '/listItems/.json', item)
+								        	break;
+
+								        }
+								    } 
+								} 
+							} else {
+								// Set checked status to false
+								console.log('no list, created item');
+								randomRecipe.ingredients[ingredient].checked = false;
+								this.$http.post('data/lists/' + currentList['.key'] + '/listItems.json', item);
+							}	
+							
+						})
+					}	
+				}	
 	  		}
 	  	}
 	}

@@ -101,6 +101,10 @@
     background: #f6f6f6;
   }
 
+  a, a:hover {
+    text-decoration: none;
+  }
+
   .header {
     position: fixed;
     top: 0;

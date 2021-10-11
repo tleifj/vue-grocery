@@ -9,7 +9,7 @@
 		
 		<router-view></router-view>
 		<ul class="list">			
-			<li class="list-item" v-for="(mealPlan, index) in mealPlans">				
+			<li class="list-item" v-for="(mealPlan, index) in sortedMealPlans">				
 				<router-link  tag="span" :to="'/meal-plans/' + mealPlan['.key']">
 				{{mealPlan.title}}
 				</router-link>
@@ -27,6 +27,11 @@
 		data: function() {
 			return {
 				editMode: false
+			}
+		},
+		computed: {
+			sortedMealPlans() {
+				return this.mealPlans.reverse();
 			}
 		},
 		methods: {

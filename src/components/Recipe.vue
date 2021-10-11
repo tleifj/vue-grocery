@@ -93,6 +93,7 @@
 									delete recipe['.key'];
 
 									this.$http.post('data/mealPlans/' + currentMealPlan['.key'] + '/meals/.json', recipe);
+									break;
 								}
 							}
 						}
